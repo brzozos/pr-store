@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+    mongo:
+        image: mongo
+        ports:
+          - "27017:27017"        
+    mongo-express:
+        image: mongo-express
+        depends_on:
+            - mongo
+        ports:
+          - "8881:8081"
+        volumes:
+        - mongodbdata:/data/db
+    rabbitmq:
+      image: "rabbitmq:3.7.18-management-alpine"
+      container_name: rabbitmq
+      ports:
+        - "15672:15672"
+        - "5672:5672"
+      volumes:
+        - rabbitmqdb:/var/lib/rabbitmq
+volumes:
+  rabbitmqdb:
+  mongodbdata:
