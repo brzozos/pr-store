@@ -22,6 +22,7 @@ public class OrderSubmitter {
     private final OrderValidator orderValidator;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final NewOrderPublisher newOrderPublisher;
 
     public SubmittedOrder submit(final OrderDTO orderDTO) {
         orderValidator.validate(orderDTO);
@@ -31,7 +32,9 @@ public class OrderSubmitter {
 
         val order = createOrder(orderDTO);
 
-        orderRepository.save(order);
+        val savedOrder = orderRepository.save(order);
+
+        newOrderPublisher.publish(savedOrder.getId());
 
         SubmittedOrder submittedOrder = createSubmittedOrder(orderDTO, order);
         return submittedOrder;
