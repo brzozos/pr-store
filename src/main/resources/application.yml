@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: store
+  data:
+    mongodb:
+      uri: mongodb://${MONGODB_URI:localhost:27017}/store
+  rabbitmq:
+    exchange: wwsi.topic
+    addresses: amqp://wwsi:wwsi@${RABBITMQ:localhost:5672}/wwsi
+    listener:
+      simple:
+        default-requeue-rejected: false
+logging:
+  level:
+    web: DEBUG
+    org:
+      springframework: INFO
+server:
+  port: ${PORT:8080}
