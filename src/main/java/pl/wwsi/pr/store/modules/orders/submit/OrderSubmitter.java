@@ -1,6 +1,7 @@
 package pl.wwsi.pr.store.modules.orders.submit;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +66,7 @@ public class OrderSubmitter {
         order.setTotalValue(orderDTO.getProducts().stream()
                 .map(productDTO -> productDTO.getUnitPrice().multiply(new BigDecimal(productDTO.getAmount())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
+        order.setCreated(LocalDateTime.now());
         return order;
     }
 
