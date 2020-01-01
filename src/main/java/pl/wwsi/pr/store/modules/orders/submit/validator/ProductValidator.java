@@ -48,7 +48,7 @@ public class ProductValidator {
                             return oProduct.get().getAmount() < product.getAmount();
 
                         }
-                ).collect(Collectors.toList());;
+                ).collect(Collectors.toList());
         if (badAmountProducts.stream().findFirst().isPresent()) {
             return Option.of(BAD_AMOUNT_MESSAGE + badAmountProducts.stream().findFirst().get().getName());
         } else {

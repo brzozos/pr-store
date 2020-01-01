@@ -28,17 +28,16 @@ public class OrderSubmitter {
     public SubmittedOrder submit(final OrderDTO orderDTO) {
         orderValidator.validate(orderDTO);
 
-        orderDTO.getProducts().stream()
+        orderDTO.getProducts()
                 .forEach(this::reserveProducts);
 
-        val order = createOrder(orderDTO);
+        Order order = createOrder(orderDTO);
 
-        val savedOrder = orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
 
         newOrderPublisher.publish(savedOrder.getId());
 
-        SubmittedOrder submittedOrder = createSubmittedOrder(orderDTO, order);
-        return submittedOrder;
+        return createSubmittedOrder(orderDTO, order);
     }
 
     private SubmittedOrder createSubmittedOrder(final OrderDTO orderDTO, final Order order) {

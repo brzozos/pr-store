@@ -38,7 +38,7 @@ public class RoutesClient {
         DecimalFormat df = new DecimalFormat("#.#######",
                 DecimalFormatSymbols.getInstance(Locale.US));
         return geocode.getFeatures().get(0).getGeometry().getCoordinates().stream()
-                .map(coordinate -> df.format(coordinate))
+                .map(df::format)
                 .collect(Collectors.joining(","));
     }
 }
