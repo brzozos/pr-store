@@ -8,5 +8,6 @@ public class OrderDTO {
     private String userName;
     private String userSurname;
     private String userAddress;
+    private Boolean publish;
     private List<ProductDTO> products;
 }

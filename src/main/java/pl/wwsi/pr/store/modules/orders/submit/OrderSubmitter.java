@@ -35,9 +35,15 @@ public class OrderSubmitter {
 
         Order savedOrder = orderRepository.save(order);
 
-        newOrderPublisher.publish(savedOrder.getId());
+        publishOrderIfNeeded(orderDTO, savedOrder);
 
         return createSubmittedOrder(orderDTO, order);
+    }
+
+    private void publishOrderIfNeeded(final OrderDTO orderDTO, final Order savedOrder) {
+        if (orderDTO.getPublish()) {
+            newOrderPublisher.publish(savedOrder.getId());
+        }
     }
 
     private SubmittedOrder createSubmittedOrder(final OrderDTO orderDTO, final Order order) {

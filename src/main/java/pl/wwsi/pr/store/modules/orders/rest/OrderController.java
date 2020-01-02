@@ -17,6 +17,7 @@ public class OrderController {
 
     @PostMapping("/order")
     public ResponseEntity<SubmittedOrder> submitOrder(@RequestBody final OrderDTO orderDTO) {
+        orderDTO.setPublish(true);
         return new ResponseEntity<>(submitter.submit(orderDTO), HttpStatus.OK);
     }
 
