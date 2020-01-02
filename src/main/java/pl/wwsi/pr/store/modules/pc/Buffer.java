@@ -2,38 +2,40 @@ package pl.wwsi.pr.store.modules.pc;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.LinkedList;
+
 @Slf4j
 public class Buffer {
 
-    private int contents;
-    private boolean available = false;
+    private final int bufferCapacity = 5;
 
-    public synchronized int get() {
-        while (!available) {
+    private LinkedList<Integer> contents = new LinkedList<>();
+
+    public synchronized int get(int consumerNumber) {
+        while (contents.size() == 0) {
             try {
-                log.info("Waiting for availaible buffer");
+                log.info("Buffer is empty for consumer {}", consumerNumber);
                 wait();
             } catch (InterruptedException e) {
                 log.error("Exception occurred while getting object from Buffer", e);
             }
         }
-        available = false;
         notifyAll();
-        return contents;
+
+        return contents.removeFirst();
     }
 
-    public synchronized void put(int value) {
-        while (available) {
+    public synchronized void put(int value, int producerNumber) {
+        while (contents.size() == bufferCapacity) {
             try {
-                log.info("Waiting to put value: {} to buffer", value);
+                log.info("Buffer is full for producer {}", producerNumber);
                 wait();
             } catch (InterruptedException e) {
                 log.error("Exception occurred while getting object from Buffer", e);
             }
         }
 
-        contents = value;
-        available = true;
+        contents.addLast(value);
         notifyAll();
     }
 }
