@@ -10,7 +10,7 @@ services:
         depends_on:
             - mongo
         ports:
-          - "8881:8081"
+          - "8081:8081"
         volumes:
         - mongodbdata:/data/db
     rabbitmq:
