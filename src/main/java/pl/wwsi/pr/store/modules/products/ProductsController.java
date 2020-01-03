@@ -9,14 +9,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class InitProductsController {
+public class ProductsController {
     private final ProductRepository repository;
+
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAllAvailableProducts() {
+        return  new ResponseEntity<>(repository.findByAmountGreaterThan(0), HttpStatus.OK);
+    }
+
 
     @PostMapping("/product")
     public ResponseEntity<List<Product>> init() {

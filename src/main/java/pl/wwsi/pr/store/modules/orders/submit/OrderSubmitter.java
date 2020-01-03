@@ -62,6 +62,9 @@ public class OrderSubmitter {
                 .map(productDTO -> {
                     val orderProduct = new OrderProduct();
                     orderProduct.setId(productDTO.getId());
+                    orderProduct.setAmount(productDTO.getAmount());
+                    orderProduct.setUnitPrice(productDTO.getUnitPrice());
+                    orderProduct.setName(productDTO.getName());
                     return orderProduct;
                 })
                 .collect(Collectors.toList()));
