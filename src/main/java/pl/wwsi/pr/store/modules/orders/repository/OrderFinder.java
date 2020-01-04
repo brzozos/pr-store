@@ -5,9 +5,11 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wwsi.pr.store.modules.orders.model.Order;
+import pl.wwsi.pr.store.modules.orders.model.OrderStatus;
 import pl.wwsi.pr.store.modules.orders.rest.exception.OrderException;
 import pl.wwsi.pr.store.modules.orders.rest.model.ClientOrder;
 import pl.wwsi.pr.store.modules.orders.rest.model.ClientProduct;
+import pl.wwsi.pr.store.modules.orders.rest.model.CourierOrder;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +44,25 @@ public class OrderFinder {
                     return clientProduct;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public List<CourierOrder> findCourierOrdersInReadyStatus() {
+        return orderRepository.findAllByStatus(OrderStatus.READY).stream()
+                .map(this::convertToCourierOrder)
+                .collect(Collectors.toList());
+
+    }
+
+    private CourierOrder convertToCourierOrder(final Order order) {
+        CourierOrder courierOrder = new CourierOrder();
+        courierOrder.setCreated(order.getCreated());
+        courierOrder.setId(order.getId());
+        courierOrder.setRoute(order.getRoute());
+        courierOrder.setStatus(order.getStatus());
+        courierOrder.setTotalValue(order.getTotalValue());
+        courierOrder.setUserAddress(order.getUserAddress());
+        courierOrder.setUserName(order.getUserName());
+        courierOrder.setUserSurname(order.getUserSurname());
+        return courierOrder;
     }
 }

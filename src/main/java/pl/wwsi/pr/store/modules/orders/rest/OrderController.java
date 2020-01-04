@@ -1,5 +1,6 @@
 package pl.wwsi.pr.store.modules.orders.rest;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.wwsi.pr.store.modules.orders.repository.OrderFinder;
 import pl.wwsi.pr.store.modules.orders.rest.model.ClientOrder;
+import pl.wwsi.pr.store.modules.orders.rest.model.CourierOrder;
 import pl.wwsi.pr.store.modules.orders.rest.model.OrderDTO;
 import pl.wwsi.pr.store.modules.orders.rest.model.SubmittedOrder;
 import pl.wwsi.pr.store.modules.orders.submit.OrderSubmitter;
@@ -29,6 +31,11 @@ public class OrderController {
     @GetMapping("/order/{id}")
     public ResponseEntity<ClientOrder> submitOrder(@PathVariable final String id) {
         return new ResponseEntity<>(orderFinder.findOrderById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/courier/orders")
+    public ResponseEntity<List<CourierOrder>> getCourierOrders() {
+        return new ResponseEntity<>(orderFinder.findCourierOrdersInReadyStatus(), HttpStatus.OK);
     }
 
 }
