@@ -1,11 +1,13 @@
 package pl.wwsi.pr.store.modules.orders.rest.model;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.List;
-import lombok.Data;
 
 @Data
 public class SubmittedOrder {
+    private String id;
     private String userName;
     private String userSurname;
     private String userAddress;

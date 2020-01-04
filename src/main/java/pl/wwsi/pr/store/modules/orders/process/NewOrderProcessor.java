@@ -1,7 +1,5 @@
 package pl.wwsi.pr.store.modules.orders.process;
 
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -9,12 +7,16 @@ import pl.wwsi.pr.store.modules.orders.listener.model.NewOrderEvent;
 import pl.wwsi.pr.store.modules.orders.model.Order;
 import pl.wwsi.pr.store.modules.orders.model.OrderRoute;
 import pl.wwsi.pr.store.modules.orders.model.OrderRoutesStep;
+import pl.wwsi.pr.store.modules.orders.model.OrderStatus;
 import pl.wwsi.pr.store.modules.orders.process.maps.GeocodeClient;
 import pl.wwsi.pr.store.modules.orders.process.maps.RoutesClient;
 import pl.wwsi.pr.store.modules.orders.process.maps.model.geocode.Geocode;
 import pl.wwsi.pr.store.modules.orders.process.maps.model.routes.Routes;
 import pl.wwsi.pr.store.modules.orders.process.maps.model.routes.RoutesStep;
 import pl.wwsi.pr.store.modules.orders.repository.OrderRepository;
+
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -33,8 +35,9 @@ public class NewOrderProcessor {
             Routes routes = routesClient.getRoutes(geocode);
 
             OrderRoute orderRoute = createOrderRoute(routes);
-
             order.setRoute(orderRoute);
+
+            order.setStatus(OrderStatus.READY);
             orderRepository.save(order);
         } else {
             log.info("Order not found {}", event.getOrderId());

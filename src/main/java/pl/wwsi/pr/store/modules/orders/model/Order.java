@@ -1,10 +1,11 @@
 package pl.wwsi.pr.store.modules.orders.model;
 
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 @Data
 public class Order {
@@ -17,4 +18,5 @@ public class Order {
     private BigDecimal totalValue;
     private OrderRoute route;
     private LocalDateTime created;
+    private OrderStatus status;
 }
